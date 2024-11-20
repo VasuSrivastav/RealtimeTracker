@@ -2,16 +2,20 @@ import express from "express";
 import { createServer } from "http";
 import path from "path";
 import { Server } from "socket.io";
-import { fileURLToPath } from "url";
+// import { fileURLToPath } from "url";
 
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
-app.set("view engine", "ejs");
+// Middleware for static files and EJS templates
+const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "public")));
+app.set("view engine", "ejs");
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.render("index.ejs");
